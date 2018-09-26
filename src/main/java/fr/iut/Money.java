@@ -9,7 +9,7 @@ public class Money {
 	
 	private double amount;
 	private String currency;
-	private Convertion convertion;
+	private Convertion convertion = new Convertion();
 	
 	private List<String> available = new ArrayList<>(Arrays.asList("EUR", "USD"));
 	
@@ -24,14 +24,6 @@ public class Money {
 		
 		this.amount = amount;
 		this.currency = currency;
-	}
-	
-	public void setConvertion(Convertion c){
-		this.convertion = c;
-	}
-	
-	public Convertion getConvertion() {
-		return convertion;
 	}
 
 	public double getAmount() {
@@ -50,18 +42,29 @@ public class Money {
 		if(!available.contains(ncurrency)) {
 			throw new IllegalArgumentException();
 		}
-		if(currency.equals("EUR")) {
-			if(ncurrency.equals("USD")) {
-				this.amount += namount*1.29;
-			} else {
-				this.amount += namount;
-			}
-		}else {
-			if(ncurrency.equals("EUR")) {
-				this.amount += namount/1.29;
-			}else {
-				this.amount += namount;
-			}
+		
+		if(currency != ncurrency) {
+			this.amount += namount*this.convertion.unit_Convertion(currency + "-" + ncurrency);
+		} else {
+			this.amount += namount;
 		}
 	}
+	
+	public void sub(Money m) {
+		this.sub(m.getAmount(), m.getCurrency());
+	}
+	
+	public void sub(double namount, String ncurrency) {
+		if(!available.contains(ncurrency)) {
+			throw new IllegalArgumentException();
+		}
+		
+		if(currency != ncurrency) {
+			this.amount -= namount*this.convertion.unit_Convertion(ncurrency + "-" + currency);
+		} else {
+			this.amount -= namount;
+		}
+	}
+	
+	
 }
