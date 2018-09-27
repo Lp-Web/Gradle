@@ -28,6 +28,7 @@ public class TestMoney {
 		oneEur = new Money(1.0, "EUR");
 		oneDoll = new Money(1.0, "USD");
 		MockitoAnnotations.initMocks(this);
+		
 		when(conv.unit_Convertion("EUR-USD")).thenReturn(1.29);
 		when(conv.unit_Convertion("USD-EUR")).thenReturn(1/1.29);
 		when(conv.unit_Convertion(" ")).thenThrow(IllegalArgumentException.class);
@@ -51,9 +52,8 @@ public class TestMoney {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructeurCurrencyDiff() {
-		new Money(10, "EMG");
+		new Money(10, " @~étruc");
 	}
-	
 	
 	@Test
 	public void testGetter() {
@@ -156,5 +156,15 @@ public class TestMoney {
 	@Test(expected = IllegalArgumentException.class)
 	public void testSubMoneyCurr() {
 		oneEur.sub(1.0, "GBP");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNegatif() {
+		oneEur.add(-1.0, "EUR");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testSubNegatif() {
+		oneEur.sub(-1.0, "EUR");
 	}
 }

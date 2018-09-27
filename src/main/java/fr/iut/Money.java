@@ -39,7 +39,7 @@ public class Money {
 	}
 
 	public void add(double namount, String ncurrency) {
-		if(!available.contains(ncurrency)) {
+		if(!available.contains(ncurrency) || namount < 0.0) {
 			throw new IllegalArgumentException();
 		}
 		
@@ -55,7 +55,7 @@ public class Money {
 	}
 	
 	public void sub(double namount, String ncurrency) {
-		if(!available.contains(ncurrency)) {
+		if(!available.contains(ncurrency) || namount < 0.0) {
 			throw new IllegalArgumentException();
 		}
 		
